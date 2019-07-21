@@ -4379,7 +4379,7 @@ type rpcserverConfig struct {
 }
 
 // newRPCServer returns a new instance of the rpcServer struct.
-func newRPCServer(config *rpcserverConfig) (*rpcServer, error) {
+func newRPCServer(config *rpcserverConfig, s *server) (*rpcServer, error) {
 	rpc := rpcServer{
 		cfg:                    *config,
 		statusLines:            make(map[int]string),
@@ -4400,6 +4400,7 @@ func newRPCServer(config *rpcserverConfig) (*rpcServer, error) {
 	}
 	rpc.ntfnMgr = newWsNotificationManager(&rpc)
 	rpc.cfg.Chain.Subscribe(rpc.handleBlockchainNotification)
+	rcp.server = s
 
 	return &rpc, nil
 }
